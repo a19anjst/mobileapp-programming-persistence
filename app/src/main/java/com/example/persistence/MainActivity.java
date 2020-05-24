@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,4 +37,5 @@ public class MainActivity extends AppCompatActivity {
         // Clear the EditText
         newPrefText.setText("");
     }
+
 }

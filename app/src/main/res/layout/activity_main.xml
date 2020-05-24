@@ -7,35 +7,50 @@
     tools:context=".MainActivity">
 
     <EditText
+        android:id="@+id/settingseditview1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/settingseditview1"/>
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="96dp" />
+
     <EditText
+        android:id="@+id/settingseditview2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/settingseditview2"/>
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="141dp" />
+
     <EditText
+        android:id="@+id/settingseditview3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/settingseditview3"/>
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="186dp" />
+
     <Button
-        android:text="@string/read"
-        android:layout_below="@+id/settingseditview3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/read"
-        android:onClick="savePref"/>
-    <Button
-        android:text="@string/write"
-        android:layout_below="@+id/settingseditview3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/settingseditview3"
+        android:onClick="savePref"
+        android:text="@string/read"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="48dp" />
+
+    <Button
         android:id="@+id/write"
-        android:onClick="savePref"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settingseditview3"
+        android:onClick="savePref"
+        android:text="@string/write"
+        tools:layout_editor_absoluteY="48dp" />
+
     <TextView
         android:layout_below="@+id/write"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Hellu!"
         android:id="@+id/prefText"/>
 
 
