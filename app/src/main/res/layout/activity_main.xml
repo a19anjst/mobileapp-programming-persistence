@@ -7,21 +7,21 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/settingseditview1"
+        android:id="@+id/editview1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="96dp" />
 
     <EditText
-        android:id="@+id/settingseditview2"
+        android:id="@+id/editview2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="-16dp"
         tools:layout_editor_absoluteY="141dp" />
 
     <EditText
-        android:id="@+id/settingseditview3"
+        android:id="@+id/editview3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="16dp"
@@ -31,7 +31,7 @@
         android:id="@+id/read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settingseditview3"
+        android:layout_below="@+id/editview3"
         android:onClick="savePref"
         android:text="@string/read"
         tools:layout_editor_absoluteX="97dp"
@@ -41,7 +41,7 @@
         android:id="@+id/write"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settingseditview3"
+        android:layout_below="@+id/editview3"
         android:onClick="savePref"
         android:text="@string/write"
         tools:layout_editor_absoluteY="48dp" />
