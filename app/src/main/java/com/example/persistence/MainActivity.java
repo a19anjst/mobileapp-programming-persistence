@@ -10,9 +10,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +28,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         myPreferenceRef = getPreferences(MODE_PRIVATE);
         myPreferenceEditor = myPreferenceRef.edit();
+        Button Read = findViewById(R.id.read);
+        Button Write = findViewById(R.id.write);
+        Button Delete = findViewById(R.id.delete);
+        Read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addGods(namn, location, gender);
+            }
+        });
+    }
     }
     public void savePref(View v){
         // Get the text
@@ -53,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-    private class DatabaseTables {
-    static class Gods {
+    class DatabaseTables {
+
+        public class GodsTable {
 
         static final String TABLE_NAME_GODS = "gods";
         static final String COLUMN_NAME_NAME = "name";
@@ -63,20 +77,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    static final String SQL_CREATE_TABLE_MOUNTAIN =
+    static final String SQL_CREATE_TABLE_GODS =
             // "CREATE TABLE mountain (id INTEGER PRIMARY KEY, name TEXT, height INT)"
-            "CREATE TABLE " + Gods.TABLE_NAME_GODS + " (" +
-                    Gods.COLUMN_NAME_NAME + " TEXT," +
-                    Gods.COLUMN_NAME_LOCATION + " TEXT," +
-                    Gods.COLUMN_NAME_GENDER + " INT)";
+            "CREATE TABLE " + GodsTable.TABLE_NAME_GODS + " (" +
+                    GodsTable.COLUMN_NAME_NAME + " TEXT," +
+                    GodsTable.COLUMN_NAME_LOCATION + " TEXT," +
+                    GodsTable.COLUMN_NAME_GENDER + " TEXT)";
 
-    static final String SQL_DELETE_TABLE_MOUNTAIN =
+    static final String SQL_DELETE_TABLE_GODS =
             // "DROP TABLE IF EXISTS mountain"
-            "DROP TABLE IF EXISTS " + Gods.TABLE_NAME_GODS;
+            "DROP TABLE IF EXISTS " + GodsTable.TABLE_NAME_GODS;
 
 }
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+
+
+class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1; // If this is incremented onUpgrade() will be executed
     private static final String DATABASE_NAME = "Gods.db"; // The file name of our database
@@ -99,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 }
-public class SqliteActivity extends AppCompatActivity {
+class SqliteActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
@@ -108,37 +124,37 @@ public class SqliteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sqlite);
 
         // Create
         databaseHelper = new DatabaseHelper(this);
         database = databaseHelper.getWritableDatabase();
 
     }
-    private long addGods(String name, int height) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseTables.Gods.COLUMN_NAME_NAME, name);
-        values.put(DatabaseTables.Gods.COLUMN_NAME_LOCATION, location);
-        return database.insert(DatabaseTables.Gods.TABLE_NAME_GODS, null, values);
-    }
-    private List<Gods> getGods() {
-        Cursor cursor = database.query(DatabaseTables.Gods.TABLE_NAME_GODS, null, null, null, null, null, null);
-        List<Gods> mountains = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            Gods gods = new Gods(
-                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.Gods.COLUMN_NAME_NAME)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Gods.COLUMN_NAME_LOCATION)),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseTables.Gods.COLUMN_NAME_GENDER))
-            );
-           gods.add(gods);
+        private long addGods (String name, String location, String gender){
+            ContentValues values = new ContentValues();
+            values.put(DatabaseTables.GodsTable.COLUMN_NAME_NAME, name);
+            values.put(DatabaseTables.GodsTable.COLUMN_NAME_LOCATION, location);
+            values.put(DatabaseTables.GodsTable.COLUMN_NAME_GENDER, gender);
+            return database.insert(DatabaseTables.GodsTable.TABLE_NAME_GODS, null, values);
         }
-        cursor.close();
-        return gods;
+        private List<Gods> getGods () {
+            Cursor cursor = database.query(DatabaseTables.GodsTable.TABLE_NAME_GODS, null, null, null, null, null, null);
+            List<Gods> Gods = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                Gods gods = new Gods(
+                        cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.GodsTable.COLUMN_NAME_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.GodsTable.COLUMN_NAME_LOCATION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.GodsTable.COLUMN_NAME_GENDER))
+                );
+                Gods.add(gods);
+            }
+            cursor.close();
+            return Gods;
+        }
+        private int deleteGods ( long id){
+            String selection = DatabaseTables.GodsTable.COLUMN_NAME_NAME + " = ?";
+            String[] selectionArgs = {String.valueOf(id)};
+            return database.delete(DatabaseTables.GodsTable.TABLE_NAME_GODS, selection, selectionArgs);
+        }
     }
-    private int deleteGods(long id) {
-        String selection = DatabaseTables.Gods.COLUMN_NAME_NAME + " = ?";
-        String[] selectionArgs = { String.valueOf(id) };
-        return database.delete(DatabaseTables.Gods.TABLE_NAME, selection, selectionArgs);
-    }
-}
 
